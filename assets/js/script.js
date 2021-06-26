@@ -73,4 +73,13 @@ function assignHourColor() {
     }
 }
 
+// save item to local storage
+$(".saveBtn").click(function () {
+    $(".task-content")
+    .next()
+    .children()
+    .removeClass("oi oi-lock-unlocked")
+    .addClass("oi oi-lock-locked");
+});
+
 assignHourColor();
