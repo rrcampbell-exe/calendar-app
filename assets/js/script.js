@@ -7,7 +7,7 @@ const saveTasks = function () {
   };
   
 // display date on page
-const currentDate = moment().format("dddd, MMMM, Do YYYY");
+const currentDate = moment().format("dddd, MMMM Do, YYYY");
 const currentDateEl = document.querySelector("#currentDay");
 currentDateEl.textContent = currentDate;
 
@@ -26,6 +26,14 @@ $(".task-content").click(function () {
 
     // auto focus new element
     textInput.trigger("focus");
+
+    // get image of td element
+    $(".edit-task-content")
+        .next()
+        .children()
+        .removeClass("oi oi-lock-locked")
+        .addClass("oi oi-lock-unlocked");
+
 });
 
 // editable task content field becomes unfocused
@@ -42,46 +50,27 @@ $(document).on("blur", ".edit-task-content", function () {
     $(this).replaceWith(taskTd);
 });
 
-// assign numerical id to hour of day
-let hourOfDay = document.querySelectorAll(".time-block")
-function hourOfDayIdAssign() {
-    hourOfDay.forEach(node => {
-        for (let i = 8; i < 18; i++) {
-            node.setAttribute("id", (i));
-            console.log(i);
-        }
-    })
-}
 
-// let hourOfDay = document.querySelectorAll(".time-block")
-// function hourOfDayIdAssign() {
-//     let hourOfDay = document.querySelectorAll(".time-block")
-//     // function hourOfDayIdAssign() {
-//     hourOfDay.forEach(node => {
-//         for (let i = 0; i < 9; i++) {
-//         node.setAttribute("id", (i + 9));
-//         console.log(i + 9);
-//     }
-// }
-    
-    
-//     // for (let i = 0; i < 9; i++) {
-//     //     hourOfDay.setAttribute("id", (i + 9));
-//     //     console.log(i + 9);
-        
-//     // }
-// };
 // assign background color to time row
 // helpful: https://stackoverflow.com/questions/4358155/changing-background-based-on-time-of-day-using-javascript
-// var hourOfDayId = hourOfDay.getAttribute("id").innerText;
-// if (document.body.hourOfDay) {
-//     if (currentHour > hourOfDay) {
-//         document.body.hourOfDayId.removeClass("present")
-//         document.body.hourOfDayId.addClass("past")
-//     } else if (currentHour < hourOfDay) {
-//         document.body.hourOfDayId.removeClass("present")
-//         document.body.hourOfDayId.addClass("future")
-//     }
-// }
+// helpful with parseInt: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_parseint
+function assignHourColor() {
+    let hourOfDay = document.querySelector(".time-block")
+    let hourOfDayId = document.getElementsByClassName("time-block")[1].id
+    let hourOfDayIdInt = parseInt(hourOfDayId);
+    console.log(hourOfDayId);
+    console.log(hourOfDayIdInt);
+    console.log(currentHour);
 
-hourOfDayIdAssign();
+    if (document.body.hourOfDay) {
+        if (currentHour > hourOfDayIdInt) {
+            document.body.hourOfDay.removeClass("present")
+            document.body.hourOfDay.addClass("past")
+        } else if (currentHour < hourOfDayIdInt) {
+            document.body.hourOfDay.removeClass("present")
+            document.body.hourOfDay.addClass("future")
+        }
+    }
+}
+
+assignHourColor();
