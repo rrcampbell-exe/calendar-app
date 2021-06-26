@@ -3,7 +3,12 @@ const currentHour = moment().format("k");
 
 // saving tasks to local storage
 const saveTasks = function () {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    $(".saveBtn").click(function () {
+        let taskText = $(".edit-task-content").val();
+        console.log(taskText);
+        tasks.push(taskText);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    })
   };
   
 // display date on page
@@ -73,6 +78,20 @@ function assignHourColor() {
     }
 }
 
+function loadTasks() {
+    tasks = JSON.parse(localStorage.getItem("tasks"));
+
+    // if nothing in localStorage, create new object to track tasks
+    if (!tasks) {
+        tasks = {
+
+        };
+    }
+
+// need to populate empty tasks object with tasks/hour of day
+
+}
+
 // save item to local storage
 $(".saveBtn").click(function () {
     $(".task-content")
@@ -82,4 +101,5 @@ $(".saveBtn").click(function () {
     .addClass("oi oi-lock-locked");
 });
 
+// run functions on page load
 assignHourColor();
