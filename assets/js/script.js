@@ -63,17 +63,18 @@ function assignHourColor() {
     let hourOfDay = document.querySelector(".time-block")
     let hourOfDayId = document.getElementsByClassName("time-block")[1].id
     let hourOfDayIdInt = parseInt(hourOfDayId);
+    let currentHourInt = parseInt(currentHour)
     console.log(hourOfDayId);
     console.log(hourOfDayIdInt);
-    console.log(currentHour);
+    console.log(currentHourInt);
 
-    if (document.body.hourOfDay) {
-        if (currentHour > hourOfDayIdInt) {
-            document.body.hourOfDay.removeClass("present")
-            document.body.hourOfDay.addClass("past")
-        } else if (currentHour < hourOfDayIdInt) {
-            document.body.hourOfDay.removeClass("present")
-            document.body.hourOfDay.addClass("future")
+    if (hourOfDay) {
+        if (currentHourInt > hourOfDayIdInt) {
+            $(hourOfDay).removeClass("present")
+            $(hourOfDay).addClass("past")
+        } else if (currentHourInt < hourOfDayIdInt) {
+            $(hourOfDay).removeClass("present");
+            $(hourOfDay).addClass("future");
         }
     }
 }
@@ -94,9 +95,9 @@ function loadTasks() {
 
 // save item to local storage
 $(".saveBtn").click(function () {
-    $(".task-content")
+    $(".task-content") // instead of *all* .task-content items, we want the closest preceding member of the family to be selected here
     .next()
-    .children()
+    .find("span:first")
     .removeClass("oi oi-lock-unlocked")
     .addClass("oi oi-lock-locked");
 });
