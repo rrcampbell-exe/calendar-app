@@ -17,7 +17,9 @@ const currentDateEl = document.querySelector("#currentDay");
 currentDateEl.textContent = currentDate;
 
 // editing task content fields
-$(".task-content").click(function () {
+$(document).on("click", ".task-content", function (event) { 
+    // DOES THE ABOVE NEED TO BE EVENT DELEGATED INSTEAD WITH .ON("CLICK", SOMETHING??? FUNCTION), ref: https://stackoverflow.com/questions/14186505/jquery-click-action-only-fires-once-per-page-refresh
+    event.preventDefault();
     // get current text of td element
     const text = $(this)
         .text()
@@ -38,7 +40,6 @@ $(".task-content").click(function () {
         .children()
         .removeClass("oi oi-lock-locked")
         .addClass("oi oi-lock-unlocked");
-
 });
 
 // editable task content field becomes unfocused
@@ -57,18 +58,12 @@ $(document).on("blur", ".edit-task-content", function () {
 
 
 // assign background color to time row
-// helpful: https://stackoverflow.com/questions/4358155/changing-background-based-on-time-of-day-using-javascript
-// helpful with parseInt: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_parseint
 function assignHourColor() {
-    let hourOfDay = $(".time-block") // javascript DOM array
-    console.log(JSON.stringify(hourOfDay, null, 2))
-    console.log(hourOfDay[1])
+    let hourOfDay = $(".time-block") 
     for (let i = 1; i < 10; i++) {
         let hourOfDayId = document.getElementsByClassName("time-block")[i].id
         let hourOfDayIdInt = parseInt(hourOfDayId);
         let currentHourInt = parseInt(currentHour)
-        console.log(hourOfDayIdInt);
-        console.log(currentHourInt);
         if (hourOfDay) {
             if (currentHourInt > hourOfDayIdInt) {
                 hourOfDay[i].setAttribute('class', 'time-block past')
@@ -97,11 +92,12 @@ function loadTasks() {
 
 // save item to local storage
 $(".saveBtn").click(function () {
-    $(".task-content") // instead of *all* .task-content items, we want the closest preceding member of the family to be selected here
-    .next()
-    .find("span:first")
-    .removeClass("oi oi-lock-unlocked")
+    $(this).removeClass("oi oi-lock-unlocked")
     .addClass("oi oi-lock-locked");
+    // $(".task-content") // instead of *all* .task-content items, we want the closest preceding member of the family to be selected here
+    // .next()
+    // .find("span:first")
+
 });
 
 // run functions on page load
