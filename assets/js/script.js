@@ -92,11 +92,12 @@ function loadTasks() {
 
 // save item to local storage
 $(".saveBtn").click(function () {
-    $(this).removeClass("oi oi-lock-unlocked")
+    $(this)
+    .find("span:first")
+    .removeClass("oi oi-lock-unlocked")
     .addClass("oi oi-lock-locked");
-    // $(".task-content") // instead of *all* .task-content items, we want the closest preceding member of the family to be selected here
-    // .next()
-    // .find("span:first")
+
+    saveTasks();
 
 });
 
