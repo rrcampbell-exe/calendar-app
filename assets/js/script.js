@@ -1,14 +1,17 @@
-let tasks = {};
+// let tasks = {};
 const currentHour = moment().format("k");
 
+// getting tasks from local storage
+function retrieveTasks() {
+    return JSON.parse(localStorage.getItem("tasksArray")) || ["", "", "", "", "", "", "", "", ""]
+}
+
 // saving tasks to local storage
-const saveTasks = function () {
-    $(".saveBtn").click(function () {
-        let taskText = $(".edit-task-content").val();
-        console.log(taskText);
-        tasks.push(taskText);
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-    })
+function saveTasks(taskToAdd, hourToAddTo) {
+    var currentStorage = retrieveTasks();
+    currentStorage[hourToAddTo - 9] = taskToAdd;
+    localStorage.setItem("tasksArray", JSON.stringify(currentStorage));
+    return;
   };
   
 // display date on page
@@ -18,7 +21,6 @@ currentDateEl.textContent = currentDate;
 
 // editing task content fields
 $(document).on("click", ".task-content", function (event) { 
-    // DOES THE ABOVE NEED TO BE EVENT DELEGATED INSTEAD WITH .ON("CLICK", SOMETHING??? FUNCTION), ref: https://stackoverflow.com/questions/14186505/jquery-click-action-only-fires-once-per-page-refresh
     event.preventDefault();
     // get current text of td element
     const text = $(this)
@@ -73,21 +75,6 @@ function assignHourColor() {
         }
         
     }
-
-}
-
-function loadTasks() {
-    tasks = JSON.parse(localStorage.getItem("tasks"));
-
-    // if nothing in localStorage, create new object to track tasks
-    if (!tasks) {
-        tasks = {
-
-        };
-    }
-
-// need to populate empty tasks object with tasks/hour of day
-
 }
 
 // save item to local storage
@@ -102,4 +89,5 @@ $(".saveBtn").click(function () {
 });
 
 // run functions on page load
+retrieveTasks();
 assignHourColor();
