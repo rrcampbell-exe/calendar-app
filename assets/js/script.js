@@ -94,16 +94,27 @@ $(".saveBtn").click(function () {
     localStorage.setItem("tasksTable", JSON.stringify(tasksArr))
     localStorage.setItem("task", taskToAdd);
     localStorage.setItem("time", hourOfTask);
+    tasksArr.sort();
+    console.log(tasksArr.sort());
+    
 });
 
 function retrieveTasks() {
     let displayTasksObj = JSON.parse(localStorage.getItem("tasksTable"))
     console.log(displayTasksObj);
-
+    for (let i = 0; i < displayTasksObj.length; i++) {
+        const text = displayTasksObj[i].task;
+        const hour = displayTasksObj[i].time;
+        $(`#${hour}`)
+            .find("td:first")
+            .text(text)
+    }
+    
+    
     // set index of array equal to hour of day in military time
     // or sort object in ascending order based on time, and need placeholders of "" for hours where nothing recorded.
 }
 
 // run functions on page load
-retrieveTasks();
 assignHourColor();
+retrieveTasks();
