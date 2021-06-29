@@ -1,18 +1,10 @@
-// let tasks = {};
 const currentHour = moment().format("k");
+let tasksArr = []
 
 // getting tasks from local storage
-function retrieveTasks() {
-    return JSON.parse(localStorage.getItem("tasksArray")) || ["", "", "", "", "", "", "", "", ""]
-}
-
-// saving tasks to local storage
-function saveTasks(taskToAdd, hourToAddTo) {
-    var currentStorage = retrieveTasks();
-    currentStorage[hourToAddTo - 9] = taskToAdd;
-    localStorage.setItem("tasksArray", JSON.stringify(currentStorage));
-    return;
-  };
+// function retrieveTasks() {
+//     return JSON.parse(localStorage.getItem("tasksTable"))
+// }
   
 // display date on page
 const currentDate = moment().format("dddd, MMMM Do, YYYY");
@@ -84,9 +76,33 @@ $(".saveBtn").click(function () {
     .removeClass("oi oi-lock-unlocked")
     .addClass("oi oi-lock-locked");
 
-    saveTasks();
+    let taskToAdd = $(this).siblings(".task-content").text();
+    let hourOfTask = $(this).closest("tr").attr("id");
+    console.log(hourOfTask);
+    console.log(taskToAdd);
 
+    let tasksObj = {
+        task: taskToAdd,
+        time: hourOfTask
+    }
+
+    if (localStorage.getItem("tasksTable")) {
+        tasksArr = JSON.parse(localStorage.getItem("tasksTable"))
+    }
+    tasksArr.push(tasksObj)
+
+    localStorage.setItem("tasksTable", JSON.stringify(tasksArr))
+    localStorage.setItem("task", taskToAdd);
+    localStorage.setItem("time", hourOfTask);
 });
+
+function retrieveTasks() {
+    let displayTasksObj = JSON.parse(localStorage.getItem("tasksTable"))
+    console.log(displayTasksObj);
+
+    // set index of array equal to hour of day in military time
+    // or sort object in ascending order based on time, and need placeholders of "" for hours where nothing recorded.
+}
 
 // run functions on page load
 retrieveTasks();
